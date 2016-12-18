@@ -29,6 +29,7 @@ group :test do
   gem 'shoulda-matchers', '~> 2.0'
   gem 'json_spec'
   gem 'timecop'
+  gem 'faker'
   gem 'guard-rspec', require: false
 end
 
