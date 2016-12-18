@@ -4,8 +4,8 @@ About challenge:
 	RoR App Goal: Capture financial data using a web service and report on it.
 
 	Requirements:
-		Capture at least five share or commodity prices from Yahoo Finance (or similar service) at a configurable regular time interval (e.g. every 10 minutes).
-		The application must have good error handling to handle situations where the service is partially or completely unavailable.
+	    Capture at least five share or commodity prices from Yahoo Finance (or similar service) at a configurable regular time interval (e.g. every 10 minutes).
+	    The application must have good error handling to handle situations where the service is partially or completely unavailable.
 		Implement a screen to display any errors and the last 5 prices for each stock.
 		A screen should have a feature that allows a user to stop/start the data capture process
 		The screen should have a “Run Now” feature that will force the capture process to run.

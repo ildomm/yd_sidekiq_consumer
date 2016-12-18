@@ -1,5 +1,6 @@
 class SchedulerController < ApplicationController
 
+  # Run worked locally
   def run_now
     worker = StockWorker.new
     worker.perform(CommodityHistory::SEQUENCE)
@@ -8,6 +9,7 @@ class SchedulerController < ApplicationController
     redirect_to controller: :history, action: :sequence
   end
 
+  # Stop all about Sidekiq
   def stop
     Sidekiq::Scheduler.enabled = false
     Sidekiq::Scheduler.clear_schedule!
@@ -15,6 +17,7 @@ class SchedulerController < ApplicationController
     redirect_to controller: :history, action: :sequence
   end
 
+  # (Re)create schedules inside Sidekiq
   def start
     Sidekiq::Scheduler.enabled = true
     Sidekiq.set_schedule(

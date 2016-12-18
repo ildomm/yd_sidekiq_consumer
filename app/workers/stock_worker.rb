@@ -1,3 +1,10 @@
+# Class worker based in Sidekiq architecture
+# Tasks:
+#     Load commodities names
+#     Contact data provider
+#     Analyse information retrieved
+#     Persist new data when it is valid to
+#
 class StockWorker
   include Sidekiq::Worker
   sidekiq_options unique: true
@@ -16,13 +23,16 @@ class StockWorker
     Commodity.all
   end
 
+  # Todo: Evolve the core of this lib YahooFinance to have a better feedback
   def update_quote(commodity)
     begin
       data = @yahoo_client.quotes([commodity.name],
                                   [:last_trade_price, :last_trade_date, :change, :previous_close])
 
+      # Provider failure
       return persist_error( commodity, 'no data' ) if data.nil?
 
+      # No data avaliable for this commodity
       if data[0][:last_trade_price].numeric?
         persist_quote( commodity, fix_date( data[0].to_h ) )
       else
@@ -47,6 +57,7 @@ class StockWorker
     end
   end
 
+  # Validade data in cases of UNIQUE entries per HOUR
   def update_allowed?( commodity, data )
     if @update_type == CommodityHistory::UNIQUE
       # Necessary to check last entry
