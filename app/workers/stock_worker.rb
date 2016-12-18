@@ -21,14 +21,12 @@ class StockWorker
       data = @yahoo_client.quotes([commodity.name],
                                   [:last_trade_price, :last_trade_date, :change, :previous_close])
 
-      if data.nil?
-        persist_error( commodity, 'no data' )
+      return persist_error( commodity, 'no data' ) if data.nil?
+
+      if data[0][:last_trade_price].numeric?
+        persist_quote( commodity, fix_date( data[0].to_h ) )
       else
-        if data[0][:last_trade_price].numeric?
-          persist_quote( commodity, fix_date( data[0].to_h ) )
-        else
-          persist_error( commodity, data[0][:last_trade_price] )
-        end
+        persist_error( commodity, data[0][:last_trade_price] )
       end
 
     rescue Exception => e
