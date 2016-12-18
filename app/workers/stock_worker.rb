@@ -49,7 +49,7 @@ class StockWorker
       # Provides no information
       return persist_error( commodity, 'no data' ) if data.nil?
 
-      # Case no data avaliable for this commodity. Flag 'N/A'
+      # Case no data available for this commodity. Flag 'N/A'
       if data[0][:last_trade_price].numeric?
         persist_quote( commodity, fix_date( data[0].to_h ) )
       else
@@ -61,7 +61,7 @@ class StockWorker
       persist_error( commodity, "Connection fail | #{e.class}.#{e.message}" )
     rescue *HTTP_TIMEOUT_ERRORS => e
       persist_error( commodity, "Server timeout | #{e.class}.#{e.message}" )
-    rescue *HTTP_ERRORS => e
+    rescue *HTTP_COMMUNICATION_ERRORS => e
       persist_error( commodity, "Communication error | #{e.class}.#{e.message}" )
     rescue Exception => e
       persist_error( commodity, "#{e.class}.#{e.message}" )
