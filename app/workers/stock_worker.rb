@@ -9,6 +9,23 @@ class StockWorker
   include Sidekiq::Worker
   sidekiq_options unique: true
 
+  HTTP_CONNECTION_ERRORS = [
+      OpenURI::HTTPError,
+      SocketError
+  ]
+  HTTP_TIMEOUT_ERRORS = [
+      Net::OpenTimeout
+  ]
+  HTTP_COMMUNICATION_ERRORS = [
+      EOFError,
+      Errno::ECONNRESET,
+      Errno::EINVAL,
+      Net::HTTPBadResponse,
+      Net::HTTPHeaderSyntaxError,
+      Net::ProtocolError,
+      Timeout::Error,
+  ]
+
   def perform( update_type )
     @yahoo_client = YahooFinance::Client.new
     @update_type  = update_type
@@ -23,24 +40,31 @@ class StockWorker
     Commodity.all
   end
 
-  # Todo: Evolve the core of this lib YahooFinance to have a better feedback
+  # Todo: Evolve the core of lib YahooFinance to have a better feedback
   def update_quote(commodity)
     begin
       data = @yahoo_client.quotes([commodity.name],
                                   [:last_trade_price, :last_trade_date, :change, :previous_close])
 
-      # Provider failure
+      # Provides no information
       return persist_error( commodity, 'no data' ) if data.nil?
 
-      # No data avaliable for this commodity
+      # Case no data avaliable for this commodity. Flag 'N/A'
       if data[0][:last_trade_price].numeric?
         persist_quote( commodity, fix_date( data[0].to_h ) )
       else
         persist_error( commodity, data[0][:last_trade_price] )
       end
 
+    # Handle all possible kinds
+    rescue *HTTP_CONNECTION_ERRORS => e
+      persist_error( commodity, "Connection fail | #{e.class}.#{e.message}" )
+    rescue *HTTP_TIMEOUT_ERRORS => e
+      persist_error( commodity, "Server timeout | #{e.class}.#{e.message}" )
+    rescue *HTTP_ERRORS => e
+      persist_error( commodity, "Communication error | #{e.class}.#{e.message}" )
     rescue Exception => e
-      persist_error( commodity, e.message )
+      persist_error( commodity, "#{e.class}.#{e.message}" )
     end
   end
 
