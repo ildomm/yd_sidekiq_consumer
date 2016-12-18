@@ -1,28 +1,39 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+About challenge:
+	RoR App Goal: Capture financial data using a web service and report on it.
+
+	Requirements:
+		Capture at least five share or commodity prices from Yahoo Finance (or similar service) at a configurable regular time interval (e.g. every 10 minutes).
+		The application must have good error handling to handle situations where the service is partially or completely unavailable.
+		Implement a screen to display any errors and the last 5 prices for each stock.
+		A screen should have a feature that allows a user to stop/start the data capture process
+		The screen should have a “Run Now” feature that will force the capture process to run.
+		Create a text report on the stock data which runs every hour - reporting on new data.
 
 Things you may want to cover:
 
 * Ruby version
-
+	2.3.0
+* Rails version
+	4.2.6
 * System dependencies
-
+	Redis
+	Mysql
 * Configuration
-
-* Database creation
-
+	config/application.rb 
+		Sidekiq schedule definitions
+		    WORKER_SCHEDULE_CRON_MINUTE = '0 */10 * * * *'
+			WORKER_SCHEDULE_CRON_HOUR = '0 0 * * * *'			
+	config/database.yml
+		Database credentials		
 * Database initialization
-
+	ruby bin/rake db:setup
+	ruby bin/rake db:setup RAILS_ENV=test
 * How to run the test suite
-
+	ruby bin/rspec
 * Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+	Start sidekiq service 
+		run_sidekiq.bat
+	Start application
+		run_server.bat
