@@ -14,7 +14,8 @@ class StockWorker
       SocketError
   ]
   HTTP_TIMEOUT_ERRORS = [
-      Net::OpenTimeout
+      Net::OpenTimeout,
+      Timeout::Error
   ]
   HTTP_COMMUNICATION_ERRORS = [
       EOFError,
@@ -23,7 +24,6 @@ class StockWorker
       Net::HTTPBadResponse,
       Net::HTTPHeaderSyntaxError,
       Net::ProtocolError,
-      Timeout::Error,
   ]
 
   def perform( update_type )
