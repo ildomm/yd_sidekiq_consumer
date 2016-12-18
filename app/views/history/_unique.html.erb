@@ -1,0 +1,28 @@
+<ul class="table no-bullets">
+  <li>Last update: <%= @last_update %></li>
+  <li>Cron: <%= get_worker_schedule_cron_hour %></li>
+</ul>
+
+<span>Last hour updates</span>
+<table class="table table-condensed table-curved">
+  <thead >
+  <tr>
+    <th>#</th>
+    <th>Commodity</th>
+    <th>Last trade</th>
+    <th>Last price</th>
+    <th>Update at</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @commodity_histories.each{ |history|  %>
+      <tr>
+        <td scope="row"><%= history.id %></td>
+        <td><%= history.commodity.name %></td>
+        <td><%= history.last_trade_date %></td>
+        <td><%= history.last_trade_price %></td>
+        <td><%= history.updated_at %></td>
+      </tr>
+  <% } %>
+  </tbody>
+</table>

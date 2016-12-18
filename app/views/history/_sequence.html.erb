@@ -1,0 +1,8 @@
+
+<ul class="table no-bullets">
+  <li>Last update: <%= @last_update %></li>
+  <li>Cron: <%= get_worker_schedule_cron_minute %></li>
+</ul>
+
+<%= render partial: 'commodities' %>
+<%= render partial: 'errors' %>

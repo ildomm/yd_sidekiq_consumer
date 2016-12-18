@@ -1,0 +1,22 @@
+
+<span>Last error logs</span>
+<table class="table table-condensed table-curved">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Commodity</th>
+    <th>When</th>
+    <th>Message</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @errors.each{ |error|  %>
+      <tr>
+        <td scope="row"><%= error.id %></td>
+        <td><%= error.commodity.name %></td>
+        <td><%= error.updated_at %></td>
+        <td><%= error.message %></td>
+      </tr>
+  <% } %>
+  </tbody>
+</table>

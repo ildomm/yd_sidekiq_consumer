@@ -1,0 +1,20 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: yd
+  password: xxx
+  host: localhost
+
+development:
+  <<: *default
+  database: yd_challenge_development
+
+test: &test
+  <<: *default
+  database: yd_challenge_test
+
+production:
+  <<: *default
+  database: yd_challenge_production
+  password: <%= ENV['JCRAWLERNZ_DATABASE_PASSWORD'] %>

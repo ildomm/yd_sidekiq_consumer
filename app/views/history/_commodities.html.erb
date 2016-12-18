@@ -1,0 +1,35 @@
+<span>All know commodities</span>
+<table class="table table-condensed table-curved">
+  <thead >
+  <tr>
+    <th>#</th>
+    <th>Commodity</th>
+    <th>Last trade</th>
+    <th>Last update</th>
+    <th>Last price</th>
+    <th>Errors</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @commodities.each{ |commodity|  %>
+      <tr>
+        <td scope="row"><%= commodity.id %></td>
+        <td><%= commodity.name %></td>
+        <td><%= commodity.last_trade_date %></td>
+        <td><%= commodity.last_update %></td>
+        <td >
+          <span onclick="$(this).next('div').toggle();" class="fake-link">
+            <%= commodity.last_trade_price %></span>
+          <div id="prices_<%= commodity.id %>" style="display:none;">
+            <ul class="table no-bullets">
+              <% commodity.last_trades(5).each{ |trade|  %>
+                <li><%= trade.last_trade_price %></li>
+              <% } %>
+            </ul>
+          </div>
+        </td>
+        <td><%= commodity.commodity_errors.count %></td>
+      </tr>
+  <% } %>
+  </tbody>
+</table>
