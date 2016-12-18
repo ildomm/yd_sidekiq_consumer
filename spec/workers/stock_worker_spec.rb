@@ -30,13 +30,6 @@ describe StockWorker do
       end
     end
 
-    context 'failure' do
-      let(:params) { 3 }
-      it 'should call YahooFinance::Client' do
-        expect(YahooFinance::Client).to receive(:new).and_call_original
-        subject
-      end
-    end
   end
 
   describe '.get_commodities' do
@@ -110,6 +103,16 @@ describe StockWorker do
         expect {
           subject
         }.to change(CommodityHistory, :count).by(0)
+      end
+    end
+  end
+
+  describe '.fix_date' do
+    subject { stock_worker.fix_date(data) }
+    context 'successful persist_error call' do
+      let(:data) { {last_trade_date: '01/01/2016 00:00:00'} }
+      it 'should FIX last_trade_date' do
+        expect(subject).to eq(last_trade_date:Date.parse('2016-01-01 00:00:00'))
       end
     end
   end
