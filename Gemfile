@@ -30,7 +30,6 @@ group :test do
   gem 'json_spec'
   gem 'timecop'
   gem 'guard-rspec', require: false
-  #gem 'factory_girl_rails'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

@@ -30,9 +30,11 @@ module StockMonitor
 
   module ApplicationConfig
     # Job execution frequency
-    WORKER_SCHEDULE_CRON_MINUTE = '*/5 * * * * *'
-    WORKER_SCHEDULE_CRON_HOUR = '*/5 * * * * *'
-    #WORKER_SCHEDULE_CRON_MINUTE = '0 */5 * * * *'
-    #WORKER_SCHEDULE_CRON_HOUR = '0 0 * * * *'
+    WORKER_SCHEDULE_CRON_MINUTE = '0 */10 * * * *'
+    WORKER_SCHEDULE_CRON_HOUR = '0 0 * * * *'
+
+    # Debug values
+    #WORKER_SCHEDULE_CRON_MINUTE = '*/5 * * * * *'
+    #WORKER_SCHEDULE_CRON_HOUR = '*/5 * * * * *'
   end
 end
