@@ -8,7 +8,7 @@ gem 'mysql2', '>= 0.3.18', '< 0.5'
 gem 'yahoo-finance', '1.1.0'
 gem 'finishing_moves'
 
-gem 'bootstrap-sass', '~> 3.3.1'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'sass-rails', github: 'rails/sass-rails'
 gem 'autoprefixer-rails'
 gem 'jquery-rails'
